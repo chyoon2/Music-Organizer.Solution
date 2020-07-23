@@ -11,18 +11,24 @@ namespace MusicOrganizer
     public Startup(IHostingEnvironment env)
     {
       var builder = new ConfigurationBuilder()
-        .SetBasePath(env.ContentRootPath)
-        .AddEnvironmentVariables();
+          .SetBasePath(env.ContentRootPath)
+          .AddEnvironmentVariables();
       Configuration = builder.Build();
     }
 
     public IConfigurationRoot Configuration { get; }
+
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
     }
+
     public void Configure(IApplicationBuilder app)
     {
+      app.UseStaticFiles();
+
+      app.UseDeveloperExceptionPage();
+
       app.UseMvc(routes =>
       {
         routes.MapRoute(
@@ -32,8 +38,9 @@ namespace MusicOrganizer
 
       app.Run(async (context) =>
       {
-        await context.Response.WriteAsync("Hello World!");
+        await context.Response.WriteAsync("Something went wrong!");
       });
+
     }
   }
 }
